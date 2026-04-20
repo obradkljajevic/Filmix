@@ -1,0 +1,216 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0f0f0f;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #141414;
+}
+#header-left{
+    margin-left: 120px;
+}
+#header-right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 120px;
+}
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e50914; /* Netflix crvena */
+}
+
+.nav {
+  display: flex;
+  gap: 50px;
+  margin-right: 50px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.nav a:hover {
+  color: #e50914;
+}
+.auth button{
+  width:100px;
+  height: 30px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+  font-weight: bold;
+}
+.login-btn {
+  background-color: #e50914;
+  color: white;
+}
+
+.login-btn:hover {
+  background-color: #b20710;
+}
+
+.reg-btn{
+  background-color: #ebebeb;
+  color: #e50914;
+}
+.reg-btn:hover{
+    background-color: #d0d0d0;
+}
+#afterHeader{
+  height: 50px;
+  width: 100%;
+  margin-top: 0;
+  padding-top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-btn{
+  width:150px;
+  height: 50px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  background-color: #e50914;
+  color: white;
+}
+.selectMovie:hover, .search-btn:hover{
+  background-color: #b20710;
+}
+#input1{
+  height: 50px;
+  width: 400px;
+}
+#input1:focus, .selectMovie:focus, .search-btn:focus{
+  outline:none;
+  box-shadow: none;
+}
+.selectMovie{
+  height: 50px;
+  width: 150px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  background-color: #e50914;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+}
+#holder{
+  display: flex;
+  gap: 0;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  height: 50px;
+  border-radius: 30px;
+  overflow: hidden;
+}
+#movies {
+  margin: 40px 10px 20px 10px;
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+}
+.movie{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 400px;
+  background-color: #141414;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.movie:hover{
+  box-shadow: 2px 2px 10px #e50914;
+}
+.movie img {
+  margin: 5% 5%;
+  width: 90%;
+  height: 300px;
+  object-fit: cover;
+}
+.h3{
+  height: 30px;
+}
+.movie h3{
+  text-align: center;
+}
+.flexing{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:80px;
+}
+.flexing span{
+  font-size: 16px;
+}
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+}
+.year, .avg{
+  font-weight: bold;
+}
+.avg{
+  transform: translateY(-2px);
+}
+.count{
+  font-size: 16px;
+  color: grey;
+}
+#pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+#pagination button {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #e50914;
+  color: white;
+  height: 50px;
+  width: 50px;
+  font-size: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  font-weight: bold;
+  border: 0;
+  border-radius: 5px;
+
+}
+#pagination button:hover{
+  background-color: #b20710;
+}
