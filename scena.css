@@ -32,15 +32,13 @@ body {
 .logo {
   font-size: 24px;
   font-weight: bold;
-  color: #e50914; /* Netflix crvena */
+  color: #e50914; 
 }
-
 .nav {
   display: flex;
   gap: 50px;
   margin-right: 50px;
 }
-
 .nav a {
   text-decoration: none;
   color: white;
@@ -48,7 +46,6 @@ body {
   transition: 0.3s;
   font-weight: bold;
 }
-
 .nav a:hover {
   color: #e50914;
 }
@@ -138,6 +135,7 @@ body {
   padding: 20px;
   flex: 1;
 }
+
 .movie{
   display: flex;
   flex-direction: column;
@@ -158,6 +156,19 @@ body {
 }
 .movie-card{
   position: relative;
+}
+.ratingsMovie{
+  overflow-y: scroll;
+}
+.ratingsMovie::-webkit-scrollbar {
+  width: 6px; 
+}
+.ratingsMovie::-webkit-scrollbar-track {
+  background: transparent;
+}
+.comment{
+  text-align: justify;
+  margin: 0 5px;
 }
 .h3{
   height: 30px;
@@ -189,6 +200,10 @@ body {
 .flexing span{
   font-size: 16px;
 }
+.ratingsFlexing{
+  margin-top: 0 !important;
+  padding: 0 !important;
+}
 .rating {
   display: flex;
   align-items: center;
@@ -202,11 +217,79 @@ body {
   display: flex;
   align-items: center;
 }
+.ratingsAvg{
+  gap:5px;
+}
 .rate{
   border: 0;
   background: none;
-  font-size: 18px;
-  transform: translateY(-2.5px);
+  font-size: 30px;
+  transform: translateY(-5px);
+  color: gold;
+}
+#ratingBox {
+    position: absolute;
+    width: 300px; /* 🔥 širi box */
+    padding: 15px;
+    background: #111;
+    border-radius: 10px;
+    z-index: 999;
+}
+.stars {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.star {
+    font-size: 22px;
+    cursor: pointer;
+    color: gray;
+    transition: 0.2s;
+}
+.star.active {
+    color: gold;
+}
+textarea {
+    width: 100%; /* 🔥 širina */
+    height: 80px;
+    margin-top: 10px;
+    border-radius: 6px;
+    padding: 5px;
+    resize: none;
+}
+#saveBtn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    background: #b20710;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.starRating{
+  display: inline-block;
+  border: 0;
+  background: none;
+  font-size: 30px !important;
+  transform: translateY(-5px);
+  color: gold;
+}
+.remove{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.remove:hover{
+  color: #e50914;
+  text-shadow: 2px  2px 2px 2px #b20710;
 }
 .star {
   font-size: 30px;
@@ -235,9 +318,9 @@ body {
   cursor: pointer;
   background-color: #e50914;
   color: white;
-  height: 50px;
-  width: 50px;
-  font-size: 40px;
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
   align-items: center;
   justify-content: center;
   display: flex;

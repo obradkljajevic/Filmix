@@ -5,6 +5,8 @@ const movies = document.getElementById("movies");
 
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 
+//watchlist rendering
+
 function renderWatchlist() {
     movies.innerHTML = "";
 
@@ -13,10 +15,16 @@ function renderWatchlist() {
         return;
     }
 
-    watchlist.forEach(movie => {
+    watchlist.forEach(item => {
 
-        const { title, poster_path, release_date, vote_average, vote_count } = movie;
-        const year = release_date ? release_date.split("-")[0] : "N/A";
+        const title = item.title || item.name;
+        const date = item.release_date || item.first_air_date;
+        const year = date ? date.split("-")[0] : "N/A";
+
+        const poster_path = item.poster_path;
+        const vote_average = item.vote_average;
+        const vote_count = item.vote_count;
+
         const el = document.createElement("div");
         
         el.classList.add("movie");
@@ -33,13 +41,13 @@ function renderWatchlist() {
               <span class="year">${year}</span>
               <span class="rating">
                 <span class="count">(${vote_count || 0})</span>
-                <span class="avg">⭐${vote_average ? vote_average.toFixed(1) : "0.0"}</span>
+                <span class="avg"><span class="starRating">★</span>${vote_average ? vote_average.toFixed(1) : "0.0"}</span>
               </span>
             </div>
         `;
 
         el.querySelector(".fav").addEventListener("click", () => {
-            watchlist = watchlist.filter(f => f.id !== movie.id);
+            watchlist = watchlist.filter(f => f.id !== item.id);
             localStorage.setItem("watchlist", JSON.stringify(watchlist));
             renderWatchlist();
         });
