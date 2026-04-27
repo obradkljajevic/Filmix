@@ -15,12 +15,18 @@ let currentType = "movie";
 const ratingBox = document.getElementById("ratingBox");
 let activeItem = null;
 
+//Detection of page. It's settled on movie, but here we check is it tv shows, person etc.
+
 if (window.location.pathname.includes("shows")) {
     currentType = "tv";
+} else if (window.location.pathname.includes("actors")) {
+    currentType = "person";
 }
 
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 let ratings = JSON.parse(localStorage.getItem("ratings")) || [];
+
+//functions for saving
 
 function saveWatchlist(){
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
@@ -29,6 +35,8 @@ function saveWatchlist(){
 function saveRatings(){
     localStorage.setItem("ratings", JSON.stringify(ratings));
 }
+
+//Function that we use to add item on watchlist, or remove from it
 
 function addRemove(item){
     const exists = watchlist.find(f => f.id === item.id);
@@ -42,6 +50,8 @@ function addRemove(item){
     saveWatchlist();
     showContent();
 }
+
+//saving rating
 
 function RateItem(item, value){
     const exists = ratings.find(r => r.id === item.id);
@@ -59,11 +69,21 @@ function RateItem(item, value){
     saveRatings();
 }
 
+//fetch content
+
 async function getContent(page = 1, genre = "") {
 
-    let url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&sort_by=vote_count.desc&page=${page}`;
+    let url = "";
 
-    if (genre) {
+    if (currentType=="person"){
+        url = `${BASE_URL}/person/popular?api_key=${API_KEY}&page=${page}`;
+    }else{
+        url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&sort_by=vote_count.desc&page=${page}`;
+    }
+
+    //genre that we use later for selection if page includes movies or tv shows
+
+    if (genre && currentType != "person") {
         url += `&with_genres=${genre}`;
     }
 
@@ -77,60 +97,109 @@ async function getContent(page = 1, genre = "") {
     createButtons();
 }
 
+//content display
+
 function showContent() {
+
     movies.innerHTML = "";
 
     moviesData.forEach(item => {
 
         const existingRating = ratings.find(r => r.id === item.id && r.type === currentType);
 
-        const title = item.title || item.name;
-        const date = item.release_date || item.first_air_date;
+        const title = currentType === "person" ? item.name : (item.title || item.name);
+        const date = currentType === "person" ? null : (item.release_date || item.first_air_date);
+
         const year = date ? date.split("-")[0] : "N/A";
 
         const isFav = watchlist.some(f => f.id === item.id);
 
+        //movies or tv shows that person is known for
+
+        const knownFor = currentType === "person"
+            ?item.known_for
+                .map(k => k.title || k.name)
+                .slice(0, 3)
+                .join("<br>")
+            : "";
+
+        //div that we use to display movie, tv show or actor
+
         const el = document.createElement("div");
         el.classList.add("movie");
-
+        if(currentType==="person") el.style.height="410px";
         el.innerHTML = `
             <div class="movie-card">
-                <img src="${IMG_URL + item.poster_path}">
-                <button class="fav">${isFav ? "★" : "☆"}</button>
+                <img src="${IMG_URL + (currentType === "person" ? item.profile_path : item.poster_path)}">
+                <button class="fav">${currentType != "person" ? (isFav ? "★" : "☆") : "" }</button>
             </div>
 
             <div class="h3">
-              <h3>${title}</h3>
+            <h3>${title}</h3>
+            ${currentType === "person" ? `<p class="known">${knownFor}</p>` : ""}
             </div>
 
             <div class="flexing">
-              <span class="year">${year}</span>
-              <span class="rating">
-                <span class="count">(${item.vote_count || 0})</span>
-                <span class="avg">
-                  <button class="rate">★</button>
-                  ${existingRating ? existingRating.rating : item.vote_average.toFixed(1)}
+            <span class="year">${currentType === "person" ? "" : year}</span>
+
+            <span class="rating">
+
+                <span class="count">
+                ${currentType === "person" ? "" : `(${item.vote_count || 0})`}
                 </span>
-              </span>
+
+                <span class="avg">
+                ${currentType !== "person" ? `<button class="rate">★</button>` : ""}
+
+                ${existingRating 
+                    ? existingRating.rating 
+                    : (currentType === "person" 
+                        ? "" 
+                        : item.vote_average.toFixed(1)
+                    )
+                }
+                </span>
+
+            </span>
             </div>
         `;
 
-        el.querySelector(".fav").onclick = () => addRemove(item);
+        //stopping propagation on fav btn that we use to put on watchlist
 
-        el.querySelector(".rate").onclick = () => {
-            const rect = el.getBoundingClientRect();
-            openRatingBox(
-                item,
-                rect.left,
-                rect.top + window.scrollY
-            );
-        };
+        const favBtn = el.querySelector(".fav");
+        favBtn.addEventListener("click", (e) =>{
+            e.stopPropagation();
+            addRemove(item);
+        });
+
+        //details about movie
+
+        el.addEventListener("click", () => {
+            if (currentType === "person") return;
+            const type = currentType; 
+            window.location.href = `details.html?id=${item.id}&type=${type}`;
+        });
+
+        const rateBtn = el.querySelector(".rate");
+
+        //stopping propagastion on button that we use to choose rating and write comment
+
+        if (rateBtn) {
+            rateBtn.onclick = (e) => {
+                e.stopPropagation();
+                const rect = el.getBoundingClientRect();
+                openRatingBox(item, rect.left, rect.top + window.scrollY);
+            };
+        }
 
         movies.appendChild(el);
     });
 }
 
+//pagination
+
 function createButtons() {
+
     pagination.innerHTML = "";
 
     const start = currentPage;
@@ -179,8 +248,12 @@ function createButtons() {
 
 let tempRating = 0;
 
+//box where we write comment and choose rating
+
 function openRatingBox(item, x, y){
     activeItem = item;
+
+    if(currentType==="person")return;
 
     ratingBox.classList.remove("hidden");
     ratingBox.style.left = x + "px";
@@ -260,7 +333,15 @@ async function searchMovies(q){
 
 getContent();
 
+//event listeners for select and search
+
 document.addEventListener("afterHeaderLoaded", () => {
+
+    const login = document.querySelector(".login-btn");
+    const reg = document.querySelector(".reg-btn");
+
+    login.addEventListener("click",()=>window.location.href="login.html");
+    reg.addEventListener("click",()=>window.location.href="reg.html");
 
     const selectMovie = document.getElementById("selectMovie");
     const searchInput = document.getElementById("input1");
