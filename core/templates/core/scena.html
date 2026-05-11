@@ -1,19 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <title>Filmix</title>
-        <link rel="stylesheet" href="scena.css">
+        <link rel="stylesheet" href="{% static 'core/css/scena.css' %}">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div id="header-placeholder"></div>
-        <div id="after-placeholder"></div>
+        {% include 'components/header.html' %}
+        {% include 'components/afterHeader.html' %}
         <section id="movies"></section>
         <div id="ratingBox" class="rating-box hidden"></div>
         <div id="pagination"></div>
 
-        <script defer src="header.js"></script>
-        <script defer src="app.js"></script>
+        <script defer src="{% static 'core/js/header.js' %}"></script>
+        <script defer src="{% static 'core/js/app.js' %}"></script>
     </body>
 </html>

@@ -1,0 +1,19 @@
+<section class="header">
+    <div id="header-left">
+        <div class="logo">Filmix</div>
+    </div>
+    
+    <div id="header-right">
+        <nav class="nav">
+            <a href="{% url 'scena' %}">Movies</a>
+            <a href="{% url 'shows' %}">TV Shows</a>
+            <a href="{% url 'actors' %}">Actors</a>
+            <a href="{% url 'watchlist' %}">Watchlist</a>
+            <a href="{% url 'rates' %}">My rates</a>
+        </nav>
+        <div class="auth">
+            <button class="login-btn"><a href="{% url 'login' %}">Login</a></button>
+            <button class="reg-btn"><a href="{% url 'register' %}">Sign up</a></button>
+        </div>
+    </div>
+</section>

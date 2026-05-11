@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TV Shows</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'core/css/scena.css' %}">
+</head>
+<body>
+    {% include 'components/header.html' %}
+    {% include 'components/afterHeader.html' %}
+    <section id="movies"></section>
+    <div id="ratingBox" class="rating-box hidden"></div>
+    <div id="pagination"></div>
+
+    <script defer src="{% static 'core/js/header.js' %}"></script>
+    <script defer src="{% static 'core/js/app.js' %}"></script>
+</body>
+</html>

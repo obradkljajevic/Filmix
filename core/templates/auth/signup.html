@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'core/css/scena.css' %}">
+</head>
+<body>
+
+{% include 'components/header.html' %}
+
+<div class="login-container" id="register-container">
+    <h2>Sign up</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign up</button>
+        <p>Already have an account? <a href="{% url 'login' %}">Sign in now</a></p>
+    </form>
+</div>
+
+<script defer src="{% static 'core/js/header.js' %}"></script>
+
+</body>
+</html>

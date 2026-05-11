@@ -436,9 +436,7 @@ h2 {
 .login-container a:hover{
   text-decoration: underline;
 }
-#register-container{
-  margin-top: 50px !important;
-}
+
 #pagination {
   display: flex;
   justify-content: center;
